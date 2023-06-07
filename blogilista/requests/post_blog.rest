@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Joulupukin päiväkirja",
+    "author": "Joulupukki",
+    "url": "fififuu",
+    "likes": 1000000
+}
