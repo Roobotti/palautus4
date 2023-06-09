@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 
@@ -39,6 +40,7 @@ describe('when there is initially one user at db', () => {
 		const usernames = usersAtEnd.map(u => u.username)
 		expect(usernames).toContain(newUser.username)
 
+	})
 	test('creation fails with proper statuscode and message if username already taken', async () => {
 		const usersAtStart = await helper.usersInDb()
 
@@ -56,6 +58,27 @@ describe('when there is initially one user at db', () => {
 
 		const usersAtEnd = await helper.usersInDb()
 		expect(usersAtEnd).toHaveLength(usersAtStart.length)
+	})
+	test('creating a user with invalid credentials returns an error', async () => {
+		const usersAtStart = await helper.usersInDb()
+
+		const newUser = {
+			username: 'us',
+			password: 'pw'
+		}
+		const result = await api
+			.post('/api/users')
+			.send(newUser)
+			.expect(400)
+			.expect('Content-Type', /application\/json/)
+		expect(result.body.error).toContain('Invalid username or password')
+		const usersAtEnd = await helper.usersInDb()
+		expect(usersAtEnd).toHaveLength(usersAtStart.length)
 		})
-  })
 })
+
+afterAll(async () => {
+	await mongoose.connection.close()
+  })
+
+//npm test -- tests/user.test.js

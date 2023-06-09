@@ -1,9 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: Bearer 
 
 {
-    "title": "Joulupukin päiväkirja",
-    "author": "Joulupukki",
-    "url": "fififuu",
-    "likes": 1000000
+    "title": "Puunkaato opas 3",
+    "author": "Pasi",
+    "url": "fifd",
+    "likes": 22020
 }
+
